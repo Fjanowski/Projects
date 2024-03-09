@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Item Collection Catalog</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #ffffff;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Item Collection Catalog</h1>
+
+    <form id="addItemForm">
+        <label for="itemName">Item Name:</label>
+        <input type="text" id="itemName" name="itemName" required>
+
+        <label for="dateReceived">Date Received:</label>
+        <input type="date" id="dateReceived" name="dateReceived">
+
+        <label for="dateReleased">Date Released:</label>
+        <input type="date" id="dateReleased" name="dateReleased">
+
+        <button type="button" onclick="addItem()">Add Item</button>
+    </form>
+
+    <label for="sortCategory">Sort by:</label>
+    <select id="sortCategory" onchange="sortCollection()">
+        <option value="itemName">Item Name</option>
+        <option value="dateReceived">Date Received</option>
+        <option value="dateReleased">Date Released</option>
+    </select>
+
+    <table id="itemTable">
+        <thead>
+            <tr>
+                <th>Item Name</th>
+                <th>Date Received</th>
+                <th>Date Released</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- When finished, table rows will be added with each entry to the collection catalog -->
+        </tbody>
+    </table>
+    <script>
+        //Add javascript code to add rows to table containing itemName, dateReceived, and dateReleased
+        //Add javascript code to sort rows by either of the 3 categories
+    </script>

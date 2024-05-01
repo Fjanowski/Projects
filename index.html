@@ -4,69 +4,93 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Item Collection Catalog</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-
-        table {
-            width: 100%;
-            margin-top: 20px;
-        }
-
-        th, td {
-            border: 1px solid #dddddd;
-            padding: 8px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #ffffff;
-        }
-
-        form {
-            margin-bottom: 20px;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
 
     <h1>Item Collection Catalog</h1>
 
-    <form id="addItemForm">
+    <form id="addItemForm" action="/add-item" method="POST">
         <label for="itemName">Item Name:</label>
         <input type="text" id="itemName" name="itemName" required>
-
         <label for="dateReceived">Date Received:</label>
         <input type="date" id="dateReceived" name="dateReceived">
-
         <label for="dateReleased">Date Released:</label>
         <input type="date" id="dateReleased" name="dateReleased">
-
-        <button type="button" onclick="addItem()">Add Item</button>
+        <button type="submit">Add Item</button><br>
     </form>
 
-    <label for="sortCategory">Sort by:</label>
-    <select id="sortCategory" onchange="sortCollection()">
-        <option value="itemName">Item Name</option>
-        <option value="dateReceived">Date Received</option>
-        <option value="dateReleased">Date Released</option>
-    </select>
+    <form id="editItemForm" action="/edit-item" method="POST">
+        <label for="itemId">Edit Item by Item ID:</label>
+        <input type="text" id="itemId" name="itemId" required>
+        <label for="itemName">Edit Item Name:</label>
+        <input type="text" id="itemName" name="itemName">
+        <label for="dateReceived">Edit Date Received:</label>
+        <input type="date" id="dateReceived" name="dateReceived">
+        <label for="dateReleased">Edit Date Released:</label>
+        <input type="date" id="dateReleased" name="dateReleased">
+        <button type="submit">Edit Item</button><br>
+    </form>
+
+    <form  id="deleteItemForm" action="/delete-item" method="POST">
+        <label for="itemId">Remove Item by Item ID:</label>
+        <input type="text" id="itemId" name="itemId" required>
+        <button type="submit">Remove Item</button><br>
+    </form>
+
+    <form id="searchForm" action="/search" method="GET">
+        <label for="searchQuery">Enter ID, Name, or Date to Search:</label>
+        <input type="text" id="searchQuery" name="q" required>
+        <button type="submit">Search</button>
+    </form>
 
     <table id="itemTable">
         <thead>
             <tr>
+                <th>ItemID</th>
                 <th>Item Name</th>
                 <th>Date Received</th>
                 <th>Date Released</th>
             </tr>
         </thead>
-        <tbody>
-            <!-- When finished, table rows will be added with each entry to the collection catalog -->
+        <tbody id="itemTableBody">      
+<!-- should populate on it's own with the javascript added -->
         </tbody>
     </table>
-    <script>
-        //Add javascript code to add rows to table containing itemName, dateReceived, and dateReleased
-        //Add javascript code to sort rows by either of the 3 categories
-    </script>
+<script>
+
+    // Function to format date string as "MM/DD/YYYY because it was including the time before for some reason"
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        if (!dateString || dateString === '0000-00-00') {
+            return ''; // Return empty string if date is null, empty, or '0000-00-00'
+        }
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Adding 1 because month is 0-indexed
+        const day = String(date.getDate()).padStart(2, '0');
+        const year = date.getFullYear();
+        return `${month}/${day}/${year}`;
+    }
+
+    // Fetch data from server and populate table
+    fetch('/items')
+            .then(response => response.json())
+            .then(items => {
+                const tableBody = document.getElementById('itemTableBody');
+                items.forEach(item => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${item.id}</td>
+                        <td>${item.name}</td>
+                        <td>${formatDate(item.date_received)}</td>
+                        <td>${formatDate(item.date_released)}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            })
+            .catch(error => console.error('Error fetching items:', error))
+</script>
+
+
+
+</body>
+</html>

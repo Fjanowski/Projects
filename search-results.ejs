@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Search Results</h1>
+    <p>Showing results for: <%= searchQuery %></p>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Date Received</th>
+                <th>Date Released</th>
+            </tr>
+        </thead>
+        <tbody id="itemTableBody">
+            <% items.forEach(item => { %>
+                <tr>
+                    <td><%= item.id %></td>
+                    <td><%= item.name %></td>
+                    <td><%= item.date_received %></td>
+                    <td><%= item.date_released %></td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</body>
+</html>
